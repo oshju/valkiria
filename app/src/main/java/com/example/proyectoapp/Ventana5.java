@@ -26,6 +26,7 @@ public class Ventana5 extends AppCompatActivity {
     RequestQueue requestQueue;
     private EditText etinombre2;
     String hola;
+    String hola1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
