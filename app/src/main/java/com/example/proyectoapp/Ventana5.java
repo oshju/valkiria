@@ -19,10 +19,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
+import io.magicthegathering.javasdk.api.CardAPI;
+import io.magicthegathering.javasdk.resource.Card;
+
 public class Ventana5 extends AppCompatActivity {
     String apiKey = "3028328cf7734aeb7217b2843daa5f0";
     private TextView txtdatos;
-    String url = "https://api.github.com/users/";
+    String url = "http://api.magicthegathering.io/v1/cards?page=311>";
     RequestQueue requestQueue;
     private EditText etinombre2;
     String hola;
@@ -60,7 +65,7 @@ public class Ventana5 extends AppCompatActivity {
     private void getRepoList(String username) {
         // First, we insert the username into the repo url.
         // The repo url is defined in GitHubs API docs (https://developer.github.com/v3/repos/).
-        this.url = this.url + username + "/repos";
+
 
         // Next, we create a new JsonArrayRequest. This will use Volley to make a HTTP request
         // that expects a JSON Array Response.
@@ -79,6 +84,9 @@ public class Ventana5 extends AppCompatActivity {
                                     String repoName = jsonObj.get("name").toString();
                                     String lastUpdated = jsonObj.get("updated_at").toString();
                                     addToRepoList(repoName, lastUpdated);
+                                    List<Card> cards = CardAPI.getAllCards();
+                                    cards.add((Card) jsonObj.get("name"));
+
 
                                 } catch (JSONException e) {
                                     // If there is an error then output this to the logs.

@@ -40,4 +40,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.code.gson:gson:2.8.7'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    implementation 'io.magicthegathering:javasdk:0.0.18'
+
 }
