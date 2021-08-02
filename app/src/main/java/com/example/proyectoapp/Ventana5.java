@@ -32,6 +32,7 @@ public class Ventana5 extends AppCompatActivity {
     private EditText etinombre2;
     String hola;
     String hola1;
+    boolean cart=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,15 @@ public class Ventana5 extends AppCompatActivity {
         this.txtdatos.setText("");
     }
 
-    private void addToRepoList(String repoName, String lastUpdated) {
+    private void addToRepoList(String repoName, String lastUpdated, List<Card> cards) {
         // This will add a new repo to our list.
         // It combines the repoName and lastUpdated strings together.
         // And then adds them followed by a new line (\n\n make two new lines).
         String strRow = repoName + " / " + lastUpdated;
         String currentText = txtdatos.getText().toString();
         this.txtdatos.setText(currentText + "\n\n" + strRow);
+        String s1=String.valueOf(cart);
+        this.txtdatos.setText(s1);
     }
 
     private void setRepoListText(String str) {
@@ -80,12 +83,16 @@ public class Ventana5 extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     // For each repo, add a new line to our repo list.
+
                                     JSONObject jsonObj = response.getJSONObject(i);
                                     String repoName = jsonObj.get("name").toString();
                                     String lastUpdated = jsonObj.get("updated_at").toString();
-                                    addToRepoList(repoName, lastUpdated);
                                     List<Card> cards = CardAPI.getAllCards();
-                                    cards.add((Card) jsonObj.get("name"));
+                                    boolean carta1= cards.add((Card) jsonObj.get("name"));
+                                    addToRepoList(repoName, lastUpdated,cards);
+
+
+
 
 
                                 } catch (JSONException e) {
