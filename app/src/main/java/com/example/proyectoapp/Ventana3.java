@@ -42,6 +42,7 @@ public class Ventana3 extends AppCompatActivity {
     private EditText txtnombre;
     private EditText txtapellido;
     private EditText txtemail;
+    String hola;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
