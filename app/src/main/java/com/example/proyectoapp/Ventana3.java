@@ -5,10 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -24,11 +31,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import android.app.ProgressDialog;
+import android.support.annotation.NonNull;
 
 public class Ventana3 extends AppCompatActivity {
+    private FirebaseAuth firebaseAuth;
 
     Button botonleer;
     TextView txtdatos;
+    private EditText txtnombre;
+    private EditText txtapellido;
+    private EditText txtemail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +49,12 @@ public class Ventana3 extends AppCompatActivity {
         setContentView(R.layout.activity_ventana3);
         this.botonleer=findViewById(R.id.botonleer);
         this.txtdatos=findViewById(R.id.etinombre);
+
+        this.txtnombre=findViewById(R.id.txtnombre);
+        this.txtapellido=findViewById(R.id.txtapellido);
+        this.txtemail=findViewById(R.id.txtemail);
+        //inicializamos el objeto firebaseAuth
+        firebaseAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -138,4 +157,47 @@ public class Ventana3 extends AppCompatActivity {
         startActivity(i);
     }
 
+    private void registrarUsuario(){
+
+        //Obtenemos el email y la contraseña desde las cajas de texto
+        String nombre = txtnombre.getText().toString().trim();
+        String apellido  = txtapellido.getText().toString().trim();
+        String email  = txtemail.getText().toString().trim();
+
+        //Verificamos que las cajas de texto no estén vacías
+        if(TextUtils.isEmpty(email)){
+            Toast.makeText(this,"Se debe ingresar un email",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(apellido)){
+            Toast.makeText(this,"Falta ingresar la contraseña",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+
+
+        //creating a new user
+        firebaseAuth.createUserWithEmailAndPassword(nombre,apellido)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //checking if success
+                        if(task.isSuccessful()){
+
+                            Toast.makeText(Ventana3.this,"Se ha registrado el usuario con el email: "+ txtnombre.getText(),Toast.LENGTH_LONG).show();
+                        }else{
+
+                            Toast.makeText(Ventana3.this,"No se pudo registrar el usuario ",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+
+    }
+
+
 }
+
+

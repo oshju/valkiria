@@ -88,6 +88,10 @@ public class Ventana5 extends AppCompatActivity {
                                     String repoName = jsonObj.get("name").toString();
                                     String lastUpdated = jsonObj.get("updated_at").toString();
                                     List<Card> cards = CardAPI.getAllCards();
+                                    for (int j = 0; j < response.length(); j++) {
+                                        cards.add((Card) jsonObj.get("name"));
+
+                                    }
                                     boolean carta1= cards.add((Card) jsonObj.get("name"));
                                     addToRepoList(repoName, lastUpdated,cards);
 
