@@ -43,5 +43,6 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'io.magicthegathering:javasdk:0.0.18'
     implementation platform('com.google.firebase:firebase-bom:28.3.0')
+    compile 'com.android.support:support-annotations:24.2.0'
 }
 apply plugin: 'com.google.gms.google-services'

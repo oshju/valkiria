@@ -1,5 +1,6 @@
 package com.example.proyectoapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -32,7 +33,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.ProgressDialog;
-import android.support.annotation.NonNull;
+
 
 public class Ventana3 extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -176,7 +177,8 @@ public class Ventana3 extends AppCompatActivity {
             return;
         }
 
-
+        progressDialog.setMessage("Realizando registro en linea...");
+        progressDialog.show();
 
 
         //creating a new user
