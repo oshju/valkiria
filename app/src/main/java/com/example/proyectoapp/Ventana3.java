@@ -159,48 +159,9 @@ public class Ventana3 extends AppCompatActivity {
         startActivity(i);
     }
 
-    private void registrarUsuario(){
 
-        //Obtenemos el email y la contraseña desde las cajas de texto
-        String nombre = txtnombre.getText().toString().trim();
-        String apellido  = txtapellido.getText().toString().trim();
-        String email  = txtemail.getText().toString().trim();
-
-        //Verificamos que las cajas de texto no estén vacías
-        if(TextUtils.isEmpty(email)){
-            Toast.makeText(this,"Se debe ingresar un email",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(apellido)){
-            Toast.makeText(this,"Falta ingresar la contraseña",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        progressDialog.setMessage("Realizando registro en linea...");
-        progressDialog.show();
-
-
-        //creating a new user
-        firebaseAuth.createUserWithEmailAndPassword(nombre,apellido)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //checking if success
-                        if(task.isSuccessful()){
-
-                            Toast.makeText(Ventana3.this,"Se ha registrado el usuario con el email: "+ txtnombre.getText(),Toast.LENGTH_LONG).show();
-                        }else{
-
-                            Toast.makeText(Ventana3.this,"No se pudo registrar el usuario ",Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-                });
 
     }
 
-
-}
 
 

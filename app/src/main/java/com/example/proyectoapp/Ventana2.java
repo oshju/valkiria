@@ -1,10 +1,12 @@
 package com.example.proyectoapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,6 +48,7 @@ public class Ventana2 extends AppCompatActivity {
     private EditText caja1;
     private EditText caja2;
     private EditText caja3;
+    private FirebaseAuth firebaseAuth;
 
     private String nom,num,loc;
 
@@ -132,7 +140,43 @@ public class Ventana2 extends AppCompatActivity {
         }
     }
 
+    private void registrarUsuario() {
 
+        //Obtenemos el email y la contraseña desde las cajas de texto
+        String nombre = caja1.getText().toString().trim();
+        String apellido = caja2.getText().toString().trim();
+        String email = caja3.getText().toString().trim();
+
+        //Verificamos que las cajas de texto no estén vacías
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Se debe ingresar un email", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(apellido)) {
+            Toast.makeText(this, "Falta ingresar la contraseña", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+        //creating a new user
+        firebaseAuth.createUserWithEmailAndPassword(nombre, apellido)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //checking if success
+                        if (task.isSuccessful()) {
+
+                            Toast.makeText(Ventana2.this, "Se ha registrado el usuario con el email: " + caja1.getText(), Toast.LENGTH_LONG).show();
+                        } else {
+
+                            Toast.makeText(Ventana2.this, "No se pudo registrar el usuario ", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+
+    }
 
 
 

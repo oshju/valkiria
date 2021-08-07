@@ -61,4 +61,10 @@
         android:layout_width="match_parent"
         android:layout_height="232dp"
         app:srcCompat="@drawable/simbionte" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Firebase" />
 </LinearLayout>
