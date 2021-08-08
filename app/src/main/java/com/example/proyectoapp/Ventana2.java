@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -50,21 +51,24 @@ public class Ventana2 extends AppCompatActivity {
     private EditText caja3;
     private FirebaseAuth firebaseAuth;
 
-    private String nom,num,loc;
+    private String nom, num, loc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ventana2);
 
-        this.caja1=findViewById(R.id.txtnombre);
-        this.caja2=findViewById(R.id.txtapellido);
-        this.caja3=findViewById(R.id.txtemail);
+        this.caja1 = findViewById(R.id.txtnombre);
+        this.caja2 = findViewById(R.id.txtapellido);
+        this.caja3 = findViewById(R.id.txtemail);
+        //firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseApp.initializeApp(this);
 
     }
+
     public void goVentana3(View view) {
-            Intent i =new Intent(this,Ventana3.class);
-            startActivity(i);
+        Intent i = new Intent(this, Ventana3.class);
+        startActivity(i);
     }
 
     public void toast1() {
@@ -75,6 +79,7 @@ public class Ventana2 extends AppCompatActivity {
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
+
     public void toast3() {
         Context context = getApplicationContext();
         CharSequence text = "paso a pagina 3 realizado!!";
@@ -84,14 +89,51 @@ public class Ventana2 extends AppCompatActivity {
         toast.show();
     }
 
-    public void hola(){
+    public void hola() {
 
+    }
+
+    public  void registrarUsuario(View view) {
+
+        //Obtenemos el email y la contraseña desde las cajas de texto
+        String nombre = caja1.getText().toString().trim();
+        String apellido = caja2.getText().toString().trim();
+        String email = caja3.getText().toString().trim();
+
+        //Verificamos que las cajas de texto no estén vacías
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Se debe ingresar un email", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(apellido)) {
+            Toast.makeText(this, "Falta ingresar la contraseña", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+        //creating a new user
+        firebaseAuth.createUserWithEmailAndPassword(nombre, apellido)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //checking if success
+                        if (task.isSuccessful()) {
+
+                            Toast.makeText(Ventana2.this, "Se ha registrado el usuario con el email: " + caja1.getText(), Toast.LENGTH_LONG).show();
+                        } else {
+
+                            Toast.makeText(Ventana2.this, "No se pudo registrar el usuario ", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
     }
 
     public void leerServicio(View view) {
         try {
             String url = "https://apidepartamentospgs.azurewebsites.net/api/Departamentos";
-            nom=caja1.getText().toString();
+            nom = caja1.getText().toString();
             caja2.getText().toString();
             caja3.getText().toString();
             new HttpAsyncTask().execute(url);
@@ -100,8 +142,6 @@ public class Ventana2 extends AppCompatActivity {
             //txtdatos.setText(e.getMessage());
         }
     }
-
-
 
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
@@ -140,44 +180,8 @@ public class Ventana2 extends AppCompatActivity {
         }
     }
 
-    private void registrarUsuario() {
-
-        //Obtenemos el email y la contraseña desde las cajas de texto
-        String nombre = caja1.getText().toString().trim();
-        String apellido = caja2.getText().toString().trim();
-        String email = caja3.getText().toString().trim();
-
-        //Verificamos que las cajas de texto no estén vacías
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Se debe ingresar un email", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(apellido)) {
-            Toast.makeText(this, "Falta ingresar la contraseña", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-
-        //creating a new user
-        firebaseAuth.createUserWithEmailAndPassword(nombre, apellido)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //checking if success
-                        if (task.isSuccessful()) {
-
-                            Toast.makeText(Ventana2.this, "Se ha registrado el usuario con el email: " + caja1.getText(), Toast.LENGTH_LONG).show();
-                        } else {
-
-                            Toast.makeText(Ventana2.this, "No se pudo registrar el usuario ", Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-                });
-
-    }
-
-
 
 }
+
+
+
