@@ -49,8 +49,8 @@ public class Ventana2 extends AppCompatActivity {
     private EditText caja1;
     private EditText caja2;
     private EditText caja3;
-    private FirebaseAuth firebaseAuth;
-
+    private FirebaseAuth
+            mAuth;
     private String nom, num, loc;
 
     @Override
@@ -63,6 +63,7 @@ public class Ventana2 extends AppCompatActivity {
         this.caja3 = findViewById(R.id.txtemail);
         //firebaseAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(this);
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -114,7 +115,7 @@ public class Ventana2 extends AppCompatActivity {
 
         //creating a new user
         //creating a new user
-        firebaseAuth.createUserWithEmailAndPassword(email, nombre)
+        mAuth.createUserWithEmailAndPassword(email, nombre)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
