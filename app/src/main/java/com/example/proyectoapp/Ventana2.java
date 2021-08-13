@@ -113,22 +113,26 @@ public class Ventana2 extends AppCompatActivity {
 
 
         //creating a new user
-        firebaseAuth.createUserWithEmailAndPassword(nombre, apellido)
+        //creating a new user
+        firebaseAuth.createUserWithEmailAndPassword(email, nombre)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //checking if success
-                        if (task.isSuccessful()) {
+                        if(task.isSuccessful()){
 
-                            Toast.makeText(Ventana2.this, "Se ha registrado el usuario con el email: " + caja1.getText(), Toast.LENGTH_LONG).show();
-                        } else {
+                            Toast.makeText(Ventana2.this,"Se ha registrado el usuario con el email: "+ caja3.getText(),Toast.LENGTH_LONG).show();
+                        }else{
 
-                            Toast.makeText(Ventana2.this, "No se pudo registrar el usuario ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Ventana2.this,"No se pudo registrar el usuario ",Toast.LENGTH_LONG).show();
                         }
 
                     }
                 });
+
     }
+
+
 
     public void leerServicio(View view) {
         try {
