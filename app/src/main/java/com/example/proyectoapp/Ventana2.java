@@ -7,40 +7,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +52,7 @@ public class Ventana2 extends AppCompatActivity {
         setContentView(R.layout.activity_ventana2);
 
         this.caja1 = findViewById(R.id.txtnombre);
-        this.caja2 = findViewById(R.id.txtapellido);
+        this.caja2 = findViewById(R.id.txtpassword);
         this.caja3 = findViewById(R.id.txtemail);
         //firebaseAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(this);
@@ -98,7 +91,7 @@ public class Ventana2 extends AppCompatActivity {
 
         //Obtenemos el email y la contraseña desde las cajas de texto
         String nombre = caja1.getText().toString().trim();
-        String apellido = caja2.getText().toString().trim();
+        String password = caja2.getText().toString().trim();
         String email = caja3.getText().toString().trim();
 
         //Verificamos que las cajas de texto no estén vacías
@@ -107,7 +100,7 @@ public class Ventana2 extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(apellido)) {
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Falta ingresar la contraseña", Toast.LENGTH_LONG).show();
             return;
         }
@@ -115,18 +108,26 @@ public class Ventana2 extends AppCompatActivity {
 
         //creating a new user
         //creating a new user
-        mAuth.createUserWithEmailAndPassword(email, nombre)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        //checking if success
-                        if(task.isSuccessful()){
 
-                            Toast.makeText(Ventana2.this,"Se ha registrado el usuario con el email: "+ caja3.getText(),Toast.LENGTH_LONG).show();
-                        }else{
-
-                            Toast.makeText(Ventana2.this,"No se pudo registrar el usuario ",Toast.LENGTH_LONG).show();
+                        if(!task.isSuccessful()) {
+                            try {
+                                throw task.getException();
+                            } catch(FirebaseAuthWeakPasswordException e) {
+                               System.out.println(e);
+                            } catch(FirebaseAuthInvalidCredentialsException e) {
+                                System.out.println(e);
+                            } catch(FirebaseAuthUserCollisionException e) {
+                                System.out.println(e);
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                                System.out.println(e);
+                            }
                         }
+
 
                     }
                 });

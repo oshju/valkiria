@@ -1,21 +1,16 @@
 package com.example.proyectoapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.apache.http.HttpEntity;
@@ -32,7 +27,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import android.app.ProgressDialog;
 
 
 public class Ventana3 extends AppCompatActivity {
@@ -53,7 +47,7 @@ public class Ventana3 extends AppCompatActivity {
         this.txtdatos=findViewById(R.id.etinombre);
 
         this.txtnombre=findViewById(R.id.txtnombre);
-        this.txtapellido=findViewById(R.id.txtapellido);
+        this.txtapellido=findViewById(R.id.txtpassword);
         this.txtemail=findViewById(R.id.txtemail);
         //inicializamos el objeto firebaseAuth
         firebaseAuth = FirebaseAuth.getInstance();
