@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -27,13 +29,16 @@ import io.magicthegathering.javasdk.resource.Card;
 public class Ventana5 extends AppCompatActivity {
     String apiKey = "3028328cf7734aeb7217b2843daa5f0";
     private TextView txtdatos;
-    String url = "http://api.magicthegathering.io/v1/cards?page=311>";
+
     RequestQueue requestQueue;
     private EditText etinombre2;
     String hola;
     String hola1;
     boolean cart=false;
-
+    private RequestQueue mRequestQueue;
+    private StringRequest mStringRequest;
+    private String url2 = "http://www.mocky.io/v2/597c41390f0000d002f4dbd1";
+    String url = "https://pokeapi.co/api/v2/pokemon/ditto";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +46,7 @@ public class Ventana5 extends AppCompatActivity {
         this.txtdatos=findViewById(R.id.txtdatos);
         this.etinombre2=findViewById(R.id.etinombre2);
         requestQueue = Volley.newRequestQueue(this);  // This setups up a new request queue which we will need to make HTTP requests.
-
+        sendAndRequestResponse();
     }
 
     private void clearRepoList() {
@@ -135,9 +140,33 @@ public class Ventana5 extends AppCompatActivity {
         // text which has been entered into the etGitHubUser text input field.
         getRepoList(etinombre2.getText().toString());
     }
+    private void sendAndRequestResponse() {
+
+        //RequestQueue initialized
+        mRequestQueue = Volley.newRequestQueue(this);
+
+        //String Request initialized
+        mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Toast.makeText(getApplicationContext(),"Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
+                txtdatos.setText(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
 
+            }
+        });
+
+        mRequestQueue.add(mStringRequest);
     }
+}
+
+
+
 
 
 
