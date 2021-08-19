@@ -2,6 +2,7 @@ package com.example.proyectoapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -162,6 +163,11 @@ public class Ventana5 extends AppCompatActivity {
         });
 
         mRequestQueue.add(mStringRequest);
+    }
+
+    public void mostrarFormulario(View view) {
+        Intent i = new Intent(this,Pruebaapikey.class );
+        startActivity(i);
     }
 }
 
