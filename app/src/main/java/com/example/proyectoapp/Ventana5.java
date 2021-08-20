@@ -148,6 +148,7 @@ public class Ventana5 extends AppCompatActivity {
 
         //String Request initialized
         mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
 
@@ -165,8 +166,13 @@ public class Ventana5 extends AppCompatActivity {
         mRequestQueue.add(mStringRequest);
     }
 
-    public void mostrarFormulario(View view) {
+    public void mostrarFormulario1(View view) {
         Intent i = new Intent(this,Pruebaapikey.class );
+        startActivity(i);
+    }
+
+    public void mostrarFormulario(View view) {
+        Intent i = new Intent(this, ventana6.class );
         startActivity(i);
     }
 }

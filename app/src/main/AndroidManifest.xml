@@ -12,10 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Proyectoapp"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".Pruebaapikey"
-            android:exported="true" />
-        <activity android:name=".Ventana5" />
+        <activity android:name=".Ventana5"></activity>
 
         <uses-library
             android:name="org.apache.http.legacy"
